@@ -1,24 +1,45 @@
 <script lang="ts">
-import type IReceita from '@/interfaces/IReceita';
-import type { PropType } from 'vue';
+import type IReceita from "@/interfaces/IReceita";
+import type { PropType } from "vue";
 
 export default {
   props: {
-    receita: { type: Object as PropType<IReceita>, required: true }
-  }
-}
+    receita: { type: Object as PropType<IReceita>, required: true },
+    ingredientes: { type: Array as PropType<string[]>, required: true },
+  },
+};
 </script>
 
 <template>
   <article class="receita">
     <header class="receita__cabecalho">
-      <img class="receita__imagem" :src="`/imagens/receitas/${receita.imagem}`" :alt="`Foto de ${receita.nome}`">
+      <img
+        class="receita__imagem"
+        :src="`/imagens/receitas/${receita.imagem}`"
+        :alt="`Foto de ${receita.nome}`"
+      />
     </header>
-
     <section class="receita__corpo">
       <h2 class="paragrafo receita__nome">
         {{ receita.nome }}
       </h2>
+      <div>
+        <span
+          v-for="(ingrediente, index) in receita.ingredientes"
+          :key="index"
+          :style="{
+            color: ingredientes.includes(ingrediente) ? 'green' : '',
+            fontWeight: ingredientes.includes(ingrediente) ? 'bold' : '',
+          }"
+        >
+          {{ ingrediente
+          }}<span
+            v-if="index !== receita.ingredientes.length - 1"
+            style="color: black; font-weight: lighter;"
+            >,
+          </span>
+        </span>
+      </div>
     </section>
   </article>
 </template>
@@ -32,7 +53,7 @@ export default {
   align-items: center;
 
   border-radius: 1rem;
-  background: var(--Branco, #FFF);
+  background: var(--Branco, #fff);
   box-shadow: 4px 4px 12px 0px rgba(68, 68, 68, 0.08);
 }
 
