@@ -1,5 +1,5 @@
 <script lang="ts">
-import { itensDeLista1EstaoEmLista2 } from '@/operacoes/listas';
+import { receitasComItensDeLista2 } from '@/operacoes/listas';
 import type { PropType } from 'vue';
 import { obterReceitas } from '@/http';
 import type IReceita from '@/interfaces/IReceita';
@@ -19,11 +19,7 @@ export default {
     const receitas = await obterReceitas();
 
     this.receitasEncontradas = receitas.filter((receita) => {
-      // Lógica que verifica se posso fazer receita:
-      // Todos os ingredientes de uma receita devem estar inclusos na minha lista de ingredientes
-      // Se sim, devemos retornar `true`
-
-      const possoFazerReceita = itensDeLista1EstaoEmLista2(receita.ingredientes, this.ingredientes);
+      const possoFazerReceita = receitasComItensDeLista2(receita.ingredientes, this.ingredientes);
 
       return possoFazerReceita;
     })
